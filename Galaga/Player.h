@@ -5,27 +5,20 @@ using namespace sf;
 
 class Player
 {
-	private:
-		Sprite playerSprite;
+private:
+	Sprite playerSprite;
 
-		/*
-		Texture playerTexture;
+	Texture playerTexture;
+	const int playerSpeed = 100;
+	Vector2f playerPosition;
+	FloatRect playerRect;
 
-		const int playerSpeed = 100;
+public:
+	Player();
 
-		Vector2f playerPosition;
-
-		FloatRect playerRect;
-		*/
-	public:
-		Player();
-		/*
-		//Vector2f getPosition();
-
-		void setPlayerScale();
-
-		void setPlayerPosition(Sprite player, float spriteScalingFactor, Vector2f windowDimensions);
-
-		Sprite getPlayerSprite();
-		*/
+	Vector2f getPlayerPosition();
+	void setPlayerScale(float spriteScalingFactor);
+	void setPlayerPosition(const float spriteScalingFactor, Vector2f windowDimensions);
+	Sprite getPlayerSprite();
+	FloatRect getPlayerRect();
 };

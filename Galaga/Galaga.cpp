@@ -20,6 +20,8 @@ int main()
 	const float spriteScalingFactor = 0.5;
 
 	Player player;
+	player.setPlayerScale(spriteScalingFactor);
+	player.setPlayerPosition(spriteScalingFactor, windowDimensions);
 
 	// Player missile sprite and texture
 	Sprite playerMissile;
@@ -35,7 +37,7 @@ int main()
 	playerMissile.setScale(spriteScalingFactor, spriteScalingFactor);
 	bool playerMissileFire = false;
 	const int missileSpeed = 1200;
-	float playerMissileYPosition = (windowDimensions.y - playerRect.height / 2.0) - playerMissileRect.height / 4.0;
+	float playerMissileYPosition = (windowDimensions.y - player.getPlayerRect().height / 2.0) - playerMissileRect.height / 4.0;
 
 	Clock clock;
 
@@ -55,7 +57,7 @@ int main()
 
 		if (playerMissileFire)
 		{
-			playerMissile.setPosition(player.getPosition().x, playerMissileYPosition);
+			playerMissile.setPosition(player.getPlayerPosition().x, playerMissileYPosition);
 			playerMissileYPosition -= (missileSpeed * dt.asSeconds());
 		}
 

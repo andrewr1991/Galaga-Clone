@@ -21,7 +21,7 @@ int main()
 
 	Player player;
 	player.setPlayerScale(spriteScalingFactor);
-	player.setPlayerPosition(spriteScalingFactor, windowDimensions);
+	player.initPlayerPosition(spriteScalingFactor, windowDimensions);
 
 	// Player missile sprite and texture
 	Sprite playerMissile;
@@ -63,12 +63,22 @@ int main()
 
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
-			
+			player.movePlayerLeft(dt);
+		}
+
+		if (Keyboard::isKeyPressed(Keyboard::Right))
+		{
+			player.movePlayerRight(dt);
 		}
 
 		window.clear();
+
+		if (playerMissileFire)
+		{
+			window.draw(playerMissile);
+		}
+
 		window.draw(player.getPlayerSprite());
-		window.draw(playerMissile);
 		window.display();
 	}
 

@@ -7,12 +7,11 @@ using namespace sf;
 Player::Player()
 {
 	// Player sprite and texture
-	playerTexture = playerTexture;
 	playerTexture.loadFromFile("graphics/player.png");
 	playerSprite.setTexture(playerTexture);
 
 	// Set player origin to center of player sprite
-	FloatRect playerRect = playerSprite.getLocalBounds();
+	playerRect = playerSprite.getLocalBounds();
 	playerSprite.setOrigin(playerRect.left + playerRect.width / 2.0f,
 	playerRect.top + playerRect.height / 2.0f);
 }
@@ -20,12 +19,13 @@ Player::Player()
 void Player::setPlayerScale(float spriteScalingFactor)
 {
 	playerSprite.setScale(spriteScalingFactor, spriteScalingFactor);
-
 }
 
-void Player::setPlayerPosition(const float spriteScalingFactor, Vector2f windowDimensions)
+void Player::initPlayerPosition(const float spriteScalingFactor, Vector2f windowDimensions)
 {
-	playerSprite.setPosition(500, 500); //playerRect.width / (2.0 / spriteScalingFactor), windowDimensions.y - playerRect.height / (2.0 / spriteScalingFactor));
+	playerPosition.x = (playerRect.width / (2.0 / spriteScalingFactor));
+	playerPosition.y = windowDimensions.y - playerRect.height / (2.0 / spriteScalingFactor);
+	playerSprite.setPosition(playerPosition);
 }
 
 Sprite Player::getPlayerSprite()
@@ -41,4 +41,16 @@ FloatRect Player::getPlayerRect()
 Vector2f Player::getPlayerPosition()
 {
 	return playerPosition;
+}
+
+void Player::movePlayerLeft(Time dt)
+{
+	playerPosition.x -= (playerSpeed * dt.asSeconds());
+	playerSprite.setPosition(playerPosition);
+}
+
+void Player::movePlayerRight(Time dt)
+{
+	playerPosition.x += (playerSpeed * dt.asSeconds());
+	playerSprite.setPosition(playerPosition);
 }

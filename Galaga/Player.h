@@ -7,18 +7,18 @@ class Player
 {
 private:
 	Sprite playerSprite;
-
 	Texture playerTexture;
-	const int playerSpeed = 100;
+	const int playerSpeed = 200;
 	Vector2f playerPosition;
 	FloatRect playerRect;
 
 public:
 	Player();
-
 	Vector2f getPlayerPosition();
 	void setPlayerScale(float spriteScalingFactor);
-	void setPlayerPosition(const float spriteScalingFactor, Vector2f windowDimensions);
 	Sprite getPlayerSprite();
 	FloatRect getPlayerRect();
+	void movePlayerLeft(Time dt);
+	void movePlayerRight(Time dt);
+	void initPlayerPosition(const float spriteScalingFactor, Vector2f windowDimensions);
 };

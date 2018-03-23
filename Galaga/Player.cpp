@@ -13,7 +13,7 @@ Player::Player()
 	// Set player origin to center of player sprite
 	playerRect = playerSprite.getLocalBounds();
 	playerSprite.setOrigin(playerRect.left + playerRect.width / 2.0f,
-	playerRect.top + playerRect.height / 2.0f);
+	                       playerRect.top + playerRect.height / 2.0f);
 }
 
 void Player::setPlayerScale(float spriteScalingFactor)

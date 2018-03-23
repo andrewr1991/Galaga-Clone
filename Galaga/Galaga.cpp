@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "SFML/Graphics.hpp"
 #include "Player.h"
+#include "PlayerMissile.h"
 
 using namespace sf;
 
@@ -23,21 +24,11 @@ int main()
 	player.setPlayerScale(spriteScalingFactor);
 	player.initPlayerPosition(spriteScalingFactor, windowDimensions);
 
-	// Player missile sprite and texture
-	Sprite playerMissile;
-	Texture playerMissileTexture;
-	playerMissileTexture.loadFromFile("graphics/player_missile.png");
-	playerMissile.setTexture(playerMissileTexture);
+	PlayerMissile playerMissile;
+	playerMissile.setPlayerMissileScale(spriteScalingFactor);
+	playerMissile.initPlayerMissilePosition(spriteScalingFactor, windowDimensions);
 
-	// Set player missile origin to center of player sprite
-	FloatRect playerMissileRect = playerMissile.getLocalBounds();
-	playerMissile.setOrigin(playerMissileRect.left + playerMissileRect.width / 2.0f,
-							playerMissileRect.top + playerMissileRect.height / 2.0f);
-
-	playerMissile.setScale(spriteScalingFactor, spriteScalingFactor);
-	bool playerMissileFire = false;
-	const int missileSpeed = 1200;
-	float playerMissileYPosition = (windowDimensions.y - player.getPlayerRect().height / 2.0) - playerMissileRect.height / 4.0;
+	float playerMissileYPosition = (windowDimensions.y - player.getPlayerRect().height / 2.0) - playerMissile.getPlayerMissileRect().height / 4.0;
 
 	Clock clock;
 
@@ -52,13 +43,20 @@ int main()
 
 		if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
-			playerMissileFire = true;
+			playerMissile.setPlayerMissileFire(true);
 		}
 
-		if (playerMissileFire)
+		if (playerMissile.getPlayerMissilePosition().y < (0 - (playerMissile.getPlayerMissileRect().height / 4.0)))
 		{
-			playerMissile.setPosition(player.getPlayerPosition().x, playerMissileYPosition);
-			playerMissileYPosition -= (missileSpeed * dt.asSeconds());
+			playerMissile.setPlayerMissileFire(false);
+			playerMissile.setPlayerMissilePosition(500, 850);
+			playerMissileYPosition = (windowDimensions.y - player.getPlayerRect().height / 2.0) - playerMissile.getPlayerMissileRect().height / 4.0;
+		}
+
+		if (playerMissile.getPlayerMissileFire())
+		{
+			playerMissile.setPlayerMissilePosition(player.getPlayerPosition().x, playerMissileYPosition);
+			playerMissileYPosition -= (playerMissile.getPlayerMissileSpeed() * dt.asSeconds());
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::Left))
@@ -72,12 +70,7 @@ int main()
 		}
 
 		window.clear();
-
-		if (playerMissileFire)
-		{
-			window.draw(playerMissile);
-		}
-
+		window.draw(playerMissile.getPlayerMissileSprite());
 		window.draw(player.getPlayerSprite());
 		window.display();
 	}

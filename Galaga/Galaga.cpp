@@ -7,6 +7,7 @@
 #include "PlayerMissile.h"
 
 using namespace sf;
+using namespace std;
 
 int main()
 {
@@ -24,17 +25,29 @@ int main()
 	player.setPlayerScale(spriteScalingFactor);
 	player.initPlayerPosition(spriteScalingFactor, windowDimensions);
 
-	PlayerMissile playerMissile;
-	playerMissile.setPlayerMissileScale(spriteScalingFactor);
-	playerMissile.initPlayerMissilePosition(spriteScalingFactor, windowDimensions);
+	PlayerMissile playerMissile[6];
+	int playerMissileCounter = 0;
 
-	float playerMissileYPosition = (windowDimensions.y - player.getPlayerRect().height / 2.0) - playerMissile.getPlayerMissileRect().height / 4.0;
+	float playerMissileYPosition = (windowDimensions.y - player.getPlayerRect().height / 2.0) - playerMissile[0].getPlayerMissileRect().height / 4.0;
+
+	for (int i = 0; i < 6; i++)
+	{
+		playerMissile[i].setPlayerMissileScale(spriteScalingFactor);
+		playerMissile[i].initPlayerMissilePosition(spriteScalingFactor, windowDimensions);
+		playerMissile[i].setPlayerMissileFire(false);
+	}
+
+	Time gameTimeTotal;
+	Time lastPressed;
+
+	float playerMissileX = 0.0;
 
 	Clock clock;
 
 	while (window.isOpen())
 	{
 		Time dt = clock.restart();
+		gameTimeTotal += dt;
 
 		if (Keyboard::isKeyPressed(Keyboard::Escape))
 		{
@@ -43,22 +56,35 @@ int main()
 
 		if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
-			playerMissile.setPlayerMissileFire(true);
+			if (gameTimeTotal.asMilliseconds() - lastPressed.asMilliseconds() > 250)
+			{
+				playerMissile[playerMissileCounter].setPlayerMissileFire(true);
+				playerMissileX = player.getPlayerPosition().x;
+				playerMissileCounter++;
+				lastPressed = gameTimeTotal;
+			}
+
+			if (playerMissileCounter >= 6)
+			{
+				playerMissileCounter = 0;
+			}
 		}
 
-		if (playerMissile.getPlayerMissilePosition().y < (0 - (playerMissile.getPlayerMissileRect().height / 4.0)))
+		for (int i = 0; i < 6; i++)
 		{
-			playerMissile.setPlayerMissileFire(false);
-			playerMissile.setPlayerMissilePosition(500, 850);
-			playerMissileYPosition = (windowDimensions.y - player.getPlayerRect().height / 2.0) - playerMissile.getPlayerMissileRect().height / 4.0;
-		}
+			if (playerMissile[i].getPlayerMissileFire())
+			{
+				playerMissile[i].setPlayerMissilePosition(playerMissileX, playerMissile[i].getPlayerYValue());
+				playerMissile[i].setPlayerYValue(playerMissile[i].getPlayerMissileSpeed() * dt.asSeconds());
+			}
 
-		if (playerMissile.getPlayerMissileFire())
-		{
-			playerMissile.setPlayerMissilePosition(player.getPlayerPosition().x, playerMissileYPosition);
-			playerMissileYPosition -= (playerMissile.getPlayerMissileSpeed() * dt.asSeconds());
+			if (playerMissile[i].getPlayerMissilePosition().y < (0 - (playerMissile[playerMissileCounter].getPlayerMissileRect().height / 4.0)))
+			{
+				playerMissile[i].setPlayerMissileFire(false);
+				playerMissile[i].setPlayerMissilePosition(500, 850);
+			}
 		}
-
+		
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
 			player.movePlayerLeft(dt);
@@ -70,7 +96,15 @@ int main()
 		}
 
 		window.clear();
-		window.draw(playerMissile.getPlayerMissileSprite());
+
+		for (int i = 0; i < 6; i++)
+		{
+			if (playerMissile[i].getPlayerMissileFire())
+			{
+				window.draw(playerMissile[i].getPlayerMissileSprite());
+			}
+		}
+		
 		window.draw(player.getPlayerSprite());
 		window.display();
 	}

@@ -25,12 +25,22 @@ void PlayerMissile::initPlayerMissilePosition(const float spriteScalingFactor, V
 {
 	playerMissilePosition.x = (playerMissileRect.width / (2.0 / spriteScalingFactor));
 	playerMissilePosition.y = windowDimensions.y - playerMissileRect.height / (2.0 / spriteScalingFactor);
+	printf("%f %f\n", playerMissilePosition.x, playerMissilePosition.y);
 	playerMissileSprite.setPosition(playerMissilePosition);
+	printf("%f %f\n\n", playerMissilePosition.x, playerMissilePosition.y);
 }
 
 void PlayerMissile::setPlayerMissilePosition(float x, float y)
 {
+	playerMissilePosition.x = x;
+	playerMissilePosition.y = y;
 	playerMissileSprite.setPosition(x, y);
+
+}
+
+Vector2f PlayerMissile::getPlayerMissilePosition()
+{
+	return playerMissilePosition;
 }
 
 Sprite PlayerMissile::getPlayerMissileSprite()
@@ -41,11 +51,6 @@ Sprite PlayerMissile::getPlayerMissileSprite()
 FloatRect PlayerMissile::getPlayerMissileRect()
 {
 	return playerMissileRect;
-}
-
-Vector2f PlayerMissile::getPlayerMissilePosition()
-{
-	return playerMissilePosition;
 }
 
 int PlayerMissile::getPlayerMissileSpeed()
@@ -60,4 +65,14 @@ void PlayerMissile::setPlayerMissileFire(bool missileFire)
 bool PlayerMissile::getPlayerMissileFire()
 {
 	return playerMissileFire;
+}
+
+void PlayerMissile::setPlayerYValue(float y)
+{
+	playerMissilePosition.y -= y;
+}
+
+float PlayerMissile::getPlayerYValue()
+{
+	return playerMissilePosition.y;
 }

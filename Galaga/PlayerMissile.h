@@ -12,6 +12,7 @@ private:
 	Vector2f playerMissilePosition;
 	FloatRect playerMissileRect;
 	bool playerMissileFire = false;
+	float playerMissileY = 0;
 
 public:
 	PlayerMissile();
@@ -24,4 +25,6 @@ public:
 	void setPlayerMissilePosition(float x, float y);
 	void setPlayerMissileFire(bool missileFire);
 	bool getPlayerMissileFire();
+	void setPlayerYValue(float y);
+	float getPlayerYValue();
 };

@@ -40,8 +40,6 @@ int main()
 	Time gameTimeTotal;
 	Time lastPressed;
 
-	float playerMissileX = 0.0;
-
 	Clock clock;
 
 	while (window.isOpen())
@@ -59,7 +57,8 @@ int main()
 			if (gameTimeTotal.asMilliseconds() - lastPressed.asMilliseconds() > 250)
 			{
 				playerMissile[playerMissileCounter].setPlayerMissileFire(true);
-				playerMissileX = player.getPlayerPosition().x;
+				playerMissile[playerMissileCounter].setPlayerMissileX(player.getPlayerPosition().x);
+				
 				playerMissileCounter++;
 				lastPressed = gameTimeTotal;
 			}
@@ -74,8 +73,9 @@ int main()
 		{
 			if (playerMissile[i].getPlayerMissileFire())
 			{
-				playerMissile[i].setPlayerMissilePosition(playerMissileX, playerMissile[i].getPlayerYValue());
+				playerMissile[i].setPlayerMissilePosition(playerMissile[i].getPlayerMissileX(), playerMissile[i].getPlayerYValue());
 				playerMissile[i].setPlayerYValue(playerMissile[i].getPlayerMissileSpeed() * dt.asSeconds());
+				printf("%d\n", playerMissile[i].getPlayerMissileSpeed());
 			}
 
 			if (playerMissile[i].getPlayerMissilePosition().y < (0 - (playerMissile[playerMissileCounter].getPlayerMissileRect().height / 4.0)))
@@ -84,7 +84,7 @@ int main()
 				playerMissile[i].setPlayerMissilePosition(500, 850);
 			}
 		}
-		
+
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
 			player.movePlayerLeft(dt);
@@ -104,11 +104,10 @@ int main()
 				window.draw(playerMissile[i].getPlayerMissileSprite());
 			}
 		}
-		
+
 		window.draw(player.getPlayerSprite());
 		window.display();
 	}
 
-    return 0;
+	return 0;
 }
-

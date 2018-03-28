@@ -13,7 +13,7 @@ PlayerMissile::PlayerMissile()
 	// Set player missile origin to center of player sprite
 	FloatRect playerMissileRect = playerMissileSprite.getLocalBounds();
 	playerMissileSprite.setOrigin(playerMissileRect.left + playerMissileRect.width / 2.0f,
-		                          playerMissileRect.top + playerMissileRect.height / 2.0f);
+		playerMissileRect.top + playerMissileRect.height / 2.0f);
 }
 
 void PlayerMissile::setPlayerMissileScale(float spriteScalingFactor)
@@ -25,9 +25,7 @@ void PlayerMissile::initPlayerMissilePosition(const float spriteScalingFactor, V
 {
 	playerMissilePosition.x = (playerMissileRect.width / (2.0 / spriteScalingFactor));
 	playerMissilePosition.y = windowDimensions.y - playerMissileRect.height / (2.0 / spriteScalingFactor);
-	printf("%f %f\n", playerMissilePosition.x, playerMissilePosition.y);
 	playerMissileSprite.setPosition(playerMissilePosition);
-	printf("%f %f\n\n", playerMissilePosition.x, playerMissilePosition.y);
 }
 
 void PlayerMissile::setPlayerMissilePosition(float x, float y)
@@ -75,4 +73,14 @@ void PlayerMissile::setPlayerYValue(float y)
 float PlayerMissile::getPlayerYValue()
 {
 	return playerMissilePosition.y;
+}
+
+float PlayerMissile::getPlayerMissileX()
+{
+	return playerMissileX;
+}
+
+void PlayerMissile::setPlayerMissileX(float x)
+{
+	playerMissileX = x;
 }

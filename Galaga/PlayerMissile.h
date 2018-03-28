@@ -8,11 +8,12 @@ class PlayerMissile
 private:
 	Sprite playerMissileSprite;
 	Texture playerMissileTexture;
-	const int playerMissileSpeed = 1200;
+	int playerMissileSpeed = 1000;
 	Vector2f playerMissilePosition;
 	FloatRect playerMissileRect;
 	bool playerMissileFire = false;
 	float playerMissileY = 0;
+	float playerMissileX = 0;
 
 public:
 	PlayerMissile();
@@ -27,4 +28,6 @@ public:
 	bool getPlayerMissileFire();
 	void setPlayerYValue(float y);
 	float getPlayerYValue();
+	float getPlayerMissileX();
+	void setPlayerMissileX(float x);
 };

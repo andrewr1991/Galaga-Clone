@@ -5,13 +5,6 @@ using namespace sf;
 
 class Player
 {
-private:
-	Sprite playerSprite;
-	Texture playerTexture;
-	const int playerSpeed = 200;
-	Vector2f playerPosition;
-	FloatRect playerRect;
-
 public:
 	Player();
 	Vector2f getPlayerPosition();
@@ -21,4 +14,11 @@ public:
 	void movePlayerLeft(Time dt);
 	void movePlayerRight(Time dt);
 	void initPlayerPosition(const float spriteScalingFactor, Vector2f windowDimensions);
+
+private:
+	Sprite playerSprite;
+	Texture playerTexture;
+	const int playerSpeed = 200;
+	Vector2f playerPosition;
+	FloatRect playerRect;
 };

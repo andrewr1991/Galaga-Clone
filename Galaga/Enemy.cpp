@@ -24,3 +24,18 @@ void Enemy::setEnemyPosition(float x, float y)
 {
 	enemySprite.setPosition(x, y);
 }
+
+const int Enemy::getEnemySpeed()
+{
+	return enemySpeed;
+}
+
+FloatRect Enemy::getEnemyRect()
+{
+	return enemyRect;
+}
+
+int Enemy::getEnemyHealth()
+{
+	return enemyHealth;
+}

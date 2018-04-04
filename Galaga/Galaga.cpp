@@ -31,9 +31,15 @@ int main()
 
 	float pMissileYPosition = (windowDimensions.y - player.getPlayerRect().height / 2.0) - pMissile[0].getpMissileRect().height / 4.0;
 
-	Enemy enemy;
-	enemy.setEnemyTexture("graphics/yellow_blue_enemy.png", spriteScalingFactor);
-	enemy.setEnemyPosition(500, 500);
+	Enemy enemy[15];
+	int enemyPositionXOffset = 0;
+
+	for (int i = 0; i < 15; i++)
+	{
+		enemy[i].setEnemyTexture("graphics/yellow_blue_enemy.png", spriteScalingFactor);
+		enemy[i].setEnemyPosition((enemy[i].getEnemyRect().width) + enemyPositionXOffset, windowDimensions.y / 8);
+		enemyPositionXOffset += enemy[i].getEnemyRect().width;
+	}
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -99,9 +105,9 @@ int main()
 			player.movePlayerRight(dt);
 		}
 
+		// Draw game
 		window.clear();
 		
-
 		for (int i = 0; i < 6; i++)
 		{
 			if (pMissile[i].getpMissileFire())
@@ -110,7 +116,15 @@ int main()
 			}
 		}
 		window.draw(player.getPlayerSprite());
-		window.draw(enemy.getEnemySprite());
+
+		for (int i = 0; i < 15; i++)
+		{
+			if (enemy[i].getEnemyHealth() > 0)
+			{
+				window.draw(enemy[i].getEnemySprite());
+			}
+		}
+		
 		window.display();
 	}
 
